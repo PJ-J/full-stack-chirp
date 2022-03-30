@@ -1,46 +1,84 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import regeneratorRuntime from "regenerator-runtime";
+import "regenerator-runtime/runtime.js";
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
 import ChirpCard from "./components/ChirpCard.jsx";
+// import Chirps from '../server/db/index'
 
 const App = () => {
   const [username, setUsername] = useState("");
   const [message, setMessage] = useState("");
   const [chirps, setChirps] = useState([
-    {
-      id: uuidv4(),
-      username: "Josh",
-      message: "This is the chirp body!",
-      created: moment().format("dddd, MMMM Do YYYY, h:mm:ss a"),
-    },
-    {
-      id: uuidv4(),
-      username: "Haylee",
-      message: "Hello!",
-      created: moment().format("dddd, MMMM Do YYYY, h:mm:ss a"),
-    },
-    {
-      id: uuidv4(),
-      username: "Garrett",
-      message: "I'm not mad!",
-      created: moment().format("dddd, MMMM Do YYYY, h:mm:ss a"),
-    },
+    // {
+    //   id: uuidv4(),
+    //   username: "Josh",
+    //   message: "This is the chirp body!",
+    //   created: moment().format("dddd, MMMM Do YYYY, h:mm:ss a"),
+    // },
+    // {
+    //   id: uuidv4(),
+    //   username: "Haylee",
+    //   message: "Hello!",
+    //   created: moment().format("dddd, MMMM Do YYYY, h:mm:ss a"),
+    // },
+    // {
+    //   id: uuidv4(),
+    //   username: "Garrett",
+    //   message: "I'm not mad!",
+    //   created: moment().format("dddd, MMMM Do YYYY, h:mm:ss a"),
+    // },
   ]);
+
+  useEffect(() => {
+    async function getChirps() {
+      try {
+        const res = await fetch('/api/chirps');
+        const chirpData = await res.json();
+        setChirps(chirpData);
+        console.log(chirpData);
+      } catch (error) {
+        console.log(error);
+      }
+    } getChirps();
+  }, []);
+
+//   return (
+// 		<main className='container'>
+// 			<section className='row justify-content-center mt-5'>
+// 				{chirps.map(chirp => (
+// 					<div className='col-md-6' key={chirp.id}>
+// 						<div className='card shadow my-2'>
+// 							<div className='card-body'>
+// 								<h4 className='card-title'>{chirp.userid}</h4>
+
+// 								<p className="card-text">{chirp.content}</p>
+// 								{/* <Link to={`/chirps/:id`} className='btn btn-primary'>More details</Link> */}
+// 							</div>
+// 						</div>
+// 					</div>
+// 				))}
+// 			</section>
+// 		</main>
+
+// 	)
+// }
+
 
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handleMessageChange = (e) => setMessage(e.target.value);
-  const handleChirpSubmit = (e) => {
-    e.preventDefault();
+//   const handleChirpSubmit = (e) => {
+//     e.preventDefault();
 
-    const newChirp = {
-      id: uuidv4(),
-      username: username,
-      message: message,
-      created: moment().format("dddd, MMMM Do YYYY, h:mm:ss a"),
-    };
+//     const newChirp = {
+//       id: uuidv4(),
+//       username: username,
+//       message: message,
+//       created: moment().format("dddd, MMMM Do YYYY, h:mm:ss a"),
+//     };
 
-    setChirps([...chirps, newChirp]);
-  };
+//     setChirps([...chirps, newChirp]);
+//   };
 
   return (
     <>
@@ -58,7 +96,7 @@ const App = () => {
           </div>
         </div>
         <div className="row">
-          <form action="">
+          <form action="/api/chirps" method="POST">
             <div className="form-group mb-2">
               <input
                 type="text"
@@ -77,21 +115,37 @@ const App = () => {
                 cols="30"
                 rows="10"
               ></textarea>
-              <button className="btn btn-dark" onClick={handleChirpSubmit}>
+              <input type="submit" value="chirp it!"></input>
+              {/* <button className="btn btn-dark" onClick={handleChirpSubmit}>
                 Chirp It!
-              </button>
+              </button> */}
             </div>
           </form>
-          <div className=" chirps mb-4">
+          	<section className='row justify-content-center mt-5'>
+// 				{chirps.map(chirp => (
+					<div className='col-md-6' key={chirp.id}>
+						<div className='card shadow my-2'>
+							<div className='card-body'>
+								<h4 className='card-title'>{chirp.userid}</h4>
+
+								<p className="card-text">{chirp.content}</p>
+								<p className="card-text-muted">{chirp.location}</p>
+								{/* <Link to={`/chirps/:id`} className='btn btn-primary'>More details</Link> */}
+							</div>
+						</div>
+					</div>
+				))}
+			</section>
+          {/* <div className=" chirps mb-4">
             {chirps.map((chirp) => (
               <ChirpCard
                 key={chirp.id}
-                username={chirp.username}
-                message={chirp.message}
-                created={chirp.created}
+                username={chirp.userid}
+                message={chirp.content}
+                created={chirp.location}
               />
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </>
