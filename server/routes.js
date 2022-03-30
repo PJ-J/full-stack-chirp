@@ -66,13 +66,14 @@ router.delete('/api/chirps/:id', async (req, res) => {
 });
 
 // // Update
-// router.put("/:id", (req, res) => {
-//     const id = req.params.id;
-//     const body = req.body;
-
-//     // chirpsStore.UpdateChirp(id, body);
-//     res.sendStatus(200);
-// });
+router.put('/api/chirps/:id', async (req, res) => {     
+  try {        
+    res.json(await db.Chirps.update(4, 'hezooo', 3, req.params.id));
+} catch (e) {
+    console.log(e);
+    res.sendStatus(500);
+}
+});
 
 // module.exports = router;
 
