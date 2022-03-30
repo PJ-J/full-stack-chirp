@@ -36,8 +36,7 @@ const App = () => {
         const res = await fetch('/api/chirps');
         const chirpData = await res.json();
         setChirps(chirpData);
-        console.log(chirpData);
-      } catch (error) {
+        } catch (error) {
         console.log(error);
       }
     } getChirps();
@@ -99,6 +98,7 @@ const App = () => {
           <form action="/api/chirps" method="POST">
             <div className="form-group mb-2">
               <input
+                name="name"
                 type="text"
                 className="form-control mb-1"
                 placeholder="Username"
@@ -107,6 +107,7 @@ const App = () => {
                 onChange={handleUsernameChange}
               />
               <textarea
+                name="content"
                 className="form-control mb-2"
                               aria-label="With textarea"
                               placeholder="(500 characters max)"
