@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import regeneratorRuntime from "regenerator-runtime";
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import "regenerator-runtime/runtime.js";
 import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
 import ChirpCard from "./components/ChirpCard.jsx";
-// import Chirps from '../server/db/index'
+
 
 const App = () => {
   const [username, setUsername] = useState("");
@@ -42,27 +42,6 @@ const App = () => {
     } getChirps();
   }, []);
 
-//   return (
-// 		<main className='container'>
-// 			<section className='row justify-content-center mt-5'>
-// 				{chirps.map(chirp => (
-// 					<div className='col-md-6' key={chirp.id}>
-// 						<div className='card shadow my-2'>
-// 							<div className='card-body'>
-// 								<h4 className='card-title'>{chirp.userid}</h4>
-
-// 								<p className="card-text">{chirp.content}</p>
-// 								{/* <Link to={`/chirps/:id`} className='btn btn-primary'>More details</Link> */}
-// 							</div>
-// 						</div>
-// 					</div>
-// 				))}
-// 			</section>
-// 		</main>
-
-// 	)
-// }
-
 
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handleMessageChange = (e) => setMessage(e.target.value);
@@ -95,13 +74,13 @@ const App = () => {
           </div>
         </div>
         <div className="row">
-          <form action="/api/chirps" method="POST">
+          <form action="/chirp-submit" method="POST">
             <div className="form-group mb-2">
               <input
                 name="name"
                 type="text"
                 className="form-control mb-1"
-                placeholder="Username"
+                placeholder="User ID number"
                 aria-label="Username"
                 value={username}
                 onChange={handleUsernameChange}
@@ -110,7 +89,7 @@ const App = () => {
                 name="content"
                 className="form-control mb-2"
                               aria-label="With textarea"
-                              placeholder="(500 characters max)"
+                              placeholder="(280 characters max)"
                 value={message}
                 onChange={handleMessageChange}
                 cols="30"
@@ -123,7 +102,7 @@ const App = () => {
             </div>
           </form>
           	<section className='row justify-content-center mt-5'>
-// 				{chirps.map(chirp => (
+			{chirps.map(chirp => (
 					<div className='col-md-6' key={chirp.id}>
 						<div className='card shadow my-2'>
 							<div className='card-body'>
@@ -131,7 +110,7 @@ const App = () => {
 
 								<p className="card-text">{chirp.content}</p>
 								<p className="card-text-muted">{chirp.location}</p>
-								{/* <Link to={`/chirps/:id`} className='btn btn-primary'>More details</Link> */}
+                <a href={`api/chirps/${chirp.id}`} className='btn btn-primary'>More details</a>
 							</div>
 						</div>
 					</div>
