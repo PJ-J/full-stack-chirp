@@ -61,7 +61,7 @@ router.delete('/api/chirps/:id', async (req, res) => {
 // // Update
 router.put('/api/chirps/:id', async (req, res) => {
     try {
-        res.json(await db.Chirps.update(4, 'hezooo', 3, req.params.id));
+        res.json(await db.Chirps.update(req.body.name, req.body.content, 3, req.params.id));
     } catch (e) {
         console.log(e);
         res.sendStatus(500);
