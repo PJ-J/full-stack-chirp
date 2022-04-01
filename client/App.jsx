@@ -12,7 +12,6 @@ const App = () => {
   const [chirps, setChirps] = useState([]);
 
   const { chirpid } = useParams();
-  
 
   useEffect(() => {
     async function getChirps() {
@@ -29,9 +28,6 @@ const App = () => {
 
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handleMessageChange = (e) => setMessage(e.target.value);
-  
-  
-  
 
   //   const handleChirpSubmit = (e) => {
   //     e.preventDefault();
@@ -99,30 +95,39 @@ const App = () => {
                     <p className="card-text">{chirp.content}</p>
                     <p className="card-text-muted">{chirp.location}</p>
                     {/* <a href={`api/chirps/${chirp.id}`} className='btn btn-primary'>More details</a> */}
-                    
-                    <button className="btn btn-dark" onClick={() => {
-    // DELETE request using fetch with error handling
-    fetch(`api/chirps/${chirp.id}`, { method: 'DELETE' })
-        .then(async res => {
-            const data = await res.json();
 
-            // check for error res
-            if (!res.ok) {
-                // get error message from body or default to res status
-                const error = (data && data.message) || res.status;
-                return Promise.reject(error);
-            }
+                    <button
+                      className="btn btn-dark"
+                      onClick={() => {
+                        // DELETE request using fetch with async/await
+                        async function deletePost() {
+                          await fetch(`api/chirps/${chirp.id}`, {
+                            method: "DELETE",
+                          });
+                          // I can't figure out how to receive a http status response here, but I'm running out of time, so for now it will delete if you refresh the page after.
+                        }
 
-            // res.sendStatus();
-        })
-        // .catch(error => {
-        //     setErrorMessage(error);
-        //     console.error('There was an error!', error);
-        // });
-}}>
-                Delete
-              </button>
+                        deletePost();
+                      }}
+                    >
+                      Delete
+                    </button>
                     
+                    <button
+                      className="btn btn-primary mx-2"
+                      onClick={() => {
+                        swal({
+                          content: {
+                            element: "input",
+                            attributes: {
+                              placeholder: "Type your new chirp",
+                              type: "newchirp",
+                            },
+                          },
+                        })}
+                      }>
+                      Edit
+                    </button>
                   </div>
                 </div>
               </div>
